@@ -4,15 +4,18 @@ import Footer from "../components/Footer";
 
 interface LayoutProps {
 	children: ReactNode;
+	backgroundColor?: string;
 }
 
-const Layout: React.FC<LayoutProps> = ({ children }) => {
+const Layout: React.FC<LayoutProps> = ({ children, backgroundColor }) => {
 	return (
-		<div>
+		<>
 			<Header />
-			<main>{children}</main>
+			<main className={`flex-1 ${backgroundColor ? backgroundColor : ""}`}>
+				{children}
+			</main>
 			<Footer />
-		</div>
+		</>
 	);
 };
 

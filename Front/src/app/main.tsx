@@ -1,10 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { store } from "./store";
+import store from "../redux/store";
 import App from "./App";
 import "./index.css";
 import "../utils/fontawesome";
+import { loadTokenFromStorage } from "../redux/authSlice";
+
+store.dispatch(loadTokenFromStorage());
 
 const root = ReactDOM.createRoot(
 	document.getElementById("root") as HTMLElement

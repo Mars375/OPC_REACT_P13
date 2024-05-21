@@ -34,7 +34,7 @@ const HomePage: React.FC = () => {
 					<img
 						src={iconChat}
 						alt='Chat Icon'
-						className='w-[152px] border-[10px] border-border rounded-full p-4'
+						className='w-[152px] border-[10px] border-secondary rounded-full p-4'
 					/>
 					<h3 className='text-xl font-bold mb-2 mt-[20px]'>
 						You are our #1 priority
@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
 					<img
 						src={iconMoney}
 						alt='Money Icon'
-						className='w-[152px] border-[10px] border-border rounded-full p-4'
+						className='w-[152px] border-[10px] border-secondary rounded-full p-4'
 					/>
 					<h3 className='text-xl font-bold mb-2 mt-[20px]'>
 						More savings means higher rates
@@ -61,7 +61,7 @@ const HomePage: React.FC = () => {
 					<img
 						src={iconSecurity}
 						alt='Security Icon'
-						className='w-[152px] border-[10px] border-border rounded-full p-4'
+						className='w-[152px] border-[10px] border-secondary rounded-full p-4'
 					/>
 					<h3 className='text-xl font-bold mb-2 mt-[20px]'>
 						Security you can trust
