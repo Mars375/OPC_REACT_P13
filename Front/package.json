@@ -16,6 +16,7 @@
     "@reduxjs/toolkit": "^2.2.5",
     "autoprefixer": "^10.4.19",
     "axios": "^1.7.1",
+    "js-cookie": "^3.0.5",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
     "postcss": "^8.4.38",
@@ -27,6 +28,7 @@
     "tailwindcss": "^3.4.3"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",

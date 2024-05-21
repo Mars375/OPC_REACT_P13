@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../api/axios";
+import Cookies from "js-cookie";
 
 interface AuthState {
 	token: string | null;
@@ -17,8 +18,15 @@ export const login = createAsyncThunk(
 	"auth/login",
 	async (credentials: { email: string; password: string }) => {
 		const response = await api.post("/user/login", credentials);
+		const token = response.data.body.token;
 
-		return response.data.body.token;
+		Cookies.set("token", token, {
+			expires: 7,
+			secure: true,
+			sameSite: "Strict",
+		});
+
+		return token;
 	}
 );
 
@@ -28,12 +36,10 @@ const authSlice = createSlice({
 	reducers: {
 		logout(state) {
 			state.token = null;
-			localStorage.removeItem("token");
-			sessionStorage.removeItem("token");
+			Cookies.remove("token");
 		},
 		loadTokenFromStorage(state) {
-			const token =
-				localStorage.getItem("token") || sessionStorage.getItem("token");
+			const token = Cookies.get("token");
 			if (token) {
 				state.token = token;
 			}

@@ -1,27 +1,28 @@
-import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { jwtDecode } from "jwt-decode";
-import { RootState } from "../redux/store";
+import Cookies from "js-cookie";
 
 const AuthMiddleware = ({ children }: { children: JSX.Element }) => {
-	const token = useSelector((state: RootState) => state.auth.token);
-
+	const token = Cookies.get("token");
 	const location = useLocation();
 
 	if (!token || typeof token !== "string" || token.trim() === "") {
-		return <Navigate to='/login' state={{ from: location }} />;
+		return (
+			<Navigate
+				to='/login'
+				state={{ from: location, error: "Please log in to access this page" }}
+			/>
+		);
 	}
-
 	try {
-		const decoded: any = jwtDecode(token);
+		const decoded: { exp: number } = jwtDecode<{ exp: number }>(token);
 		const currentTime = Date.now() / 1000;
 
 		if (decoded.exp < currentTime) {
 			throw new Error("Token expired");
 		}
 	} catch (error) {
-		return <Navigate to='/login' state={{ from: location }} />;
+		return <Navigate to='/login' state={{ from: location, error: error }} />;
 	}
 
 	return children;
