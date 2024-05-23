@@ -16,12 +16,14 @@ const ProfilePage: React.FC = () => {
 
   useEffect(() => {
     if (isLoggedIn && !profile) {
+      // Fetch user profile if logged in and profile is not loaded
       dispatch(fetchProfile());
     }
   }, [isLoggedIn, profile, dispatch]);
 
   useEffect(() => {
     if (status === 'failed' && error === 'Session expired') {
+      // Redirect to login page if session expired
       navigate('/login', {
         state: { error: 'Session expired. Please log in again.' },
       });

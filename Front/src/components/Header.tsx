@@ -14,11 +14,13 @@ const Header: React.FC = () => {
 
   useEffect(() => {
     if (isLoggedIn && !profile) {
+      // Fetch user profile if logged in and profile is not loaded
       dispatch(fetchProfile());
     }
   }, [isLoggedIn, profile, dispatch]);
 
   const handleLogout = () => {
+    // Dispatch logout action
     dispatch(logout());
   };
 

@@ -24,6 +24,7 @@ const initialState: ProfileState = {
   error: null,
 };
 
+// Async action to fetch user profile
 export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',
   async (_, { rejectWithValue }) => {
@@ -52,6 +53,7 @@ export const fetchProfile = createAsyncThunk(
   }
 );
 
+// Slice to manage user profile state
 const profileSlice = createSlice({
   name: 'profile',
   initialState,

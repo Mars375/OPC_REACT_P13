@@ -3,6 +3,7 @@ import api from '../api/axios';
 import Cookies from 'js-cookie';
 import errorMessages from '../config/errorMessages';
 import { AxiosError } from 'axios';
+import { setItemWithExpiry } from '../utils/storage';
 
 interface AuthState {
   token: string | null;
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   isLoggedIn: false,
 };
 
+// Async action to handle user login
 export const login = createAsyncThunk(
   'auth/login',
   async (
@@ -31,17 +33,20 @@ export const login = createAsyncThunk(
       });
       const token = response.data.body.token;
 
+      // Set cookie options based on rememberMe flag
       const cookieOptions = {
         expires: credentials.rememberMe ? 30 : 1,
         secure: true,
         sameSite: 'Strict' as const,
       };
 
+      // Save token in cookies
       Cookies.set('token', token, cookieOptions);
 
+      // Save email and password in localStorage if rememberMe is true
       if (credentials.rememberMe) {
-        localStorage.setItem('email', credentials.email);
-        localStorage.setItem('password', credentials.password);
+        setItemWithExpiry('email', credentials.email, 7);
+        setItemWithExpiry('password', credentials.password, 7);
       } else {
         localStorage.removeItem('email');
         localStorage.removeItem('password');
@@ -67,11 +72,13 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
+    // Action to handle user logout
     logout(state) {
       state.token = null;
       state.isLoggedIn = false;
       Cookies.remove('token');
     },
+    // Action to load token from cookies
     loadTokenFromStorage(state) {
       const token = Cookies.get('token');
       if (token) {

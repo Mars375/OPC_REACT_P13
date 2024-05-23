@@ -3,6 +3,7 @@ import CryptoJS from 'crypto-js';
 const SECRET_KEY =
   import.meta.env.REACT_APP_SECRET_KEY_CRYPTO || 'default-secret-key';
 
+// Function to set item in localStorage with expiration
 export function setItemWithExpiry(key: string, value: string, days: number) {
   const now = new Date();
   const expiryDate = new Date(now.getTime() + days * 24 * 60 * 60 * 1000);
@@ -15,6 +16,7 @@ export function setItemWithExpiry(key: string, value: string, days: number) {
   localStorage.setItem(key, JSON.stringify(item));
 }
 
+// Function to get item from localStorage and check expiration
 export function getItemWithExpiry(key: string) {
   const itemStr = localStorage.getItem(key);
 
