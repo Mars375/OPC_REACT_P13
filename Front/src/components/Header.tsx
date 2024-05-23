@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import argentBankLogo from '../assets/argentBankLogo.png';
 import { useSelector, useDispatch } from 'react-redux';
+import { clearProfile } from '../redux/profileSlice';
 import { logout } from '../redux/authSlice';
 import { fetchProfile } from '../redux/profileSlice';
 import { AppDispatch, RootState } from '../redux/store';
@@ -21,6 +22,7 @@ const Header: React.FC = () => {
 
   const handleLogout = () => {
     // Dispatch logout action
+    dispatch(clearProfile());
     dispatch(logout());
   };
 

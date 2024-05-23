@@ -7,6 +7,7 @@ const errorMessages = {
   FETCH_PROFILE_FAILED: 'Failed to fetch profile. Please try again.',
   UNAUTHORIZED: 'You are not authorized to view this profile. Please log in.',
   NOT_FOUND: 'Profile not found. Please check the URL.',
+  UPDATE_PROFILE_FAILED: 'Failed to update profile. Please try again.',
 };
 
 export default errorMessages;

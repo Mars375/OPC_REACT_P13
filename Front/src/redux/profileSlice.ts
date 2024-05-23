@@ -53,6 +53,38 @@ export const fetchProfile = createAsyncThunk(
   }
 );
 
+// Async action to update user profile
+export const updateProfile = createAsyncThunk(
+  'profile/updateProfile',
+  async (
+    profileData: { firstName: string; lastName: string },
+    { rejectWithValue }
+  ) => {
+    try {
+      const response = await api.put('/user/profile', profileData);
+      return response.data.body;
+    } catch (error) {
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data
+      ) {
+        const status = error.response.status;
+        let errorMessage = errorMessages.UPDATE_PROFILE_FAILED;
+
+        if (status === 401) {
+          errorMessage = errorMessages.UNAUTHORIZED;
+        } else if (status === 404) {
+          errorMessage = errorMessages.NOT_FOUND;
+        }
+
+        return rejectWithValue(errorMessage);
+      }
+      return rejectWithValue(errorMessages.UPDATE_PROFILE_FAILED);
+    }
+  }
+);
+
 // Slice to manage user profile state
 const profileSlice = createSlice({
   name: 'profile',
@@ -60,6 +92,8 @@ const profileSlice = createSlice({
   reducers: {
     clearProfile(state) {
       state.profile = null;
+      state.status = 'idle';
+      state.error = null;
     },
   },
   extraReducers: (builder) => {
@@ -72,6 +106,17 @@ const profileSlice = createSlice({
         state.profile = action.payload;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string;
+      })
+      .addCase(updateProfile.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.profile = { ...state.profile, ...action.payload };
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
       });

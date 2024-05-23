@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { fetchProfile } from '../redux/profileSlice';
+import { fetchProfile, updateProfile } from '../redux/profileSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
 import { AppDispatch } from '../redux/store';
@@ -13,6 +13,10 @@ const ProfilePage: React.FC = () => {
     (state: RootState) => state.profile
   );
   const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+
+  const [editMode, setEditMode] = useState(false);
+  const [firstName, setFirstName] = useState(profile?.firstName || '');
+  const [lastName, setLastName] = useState(profile?.lastName || '');
 
   useEffect(() => {
     if (isLoggedIn && !profile) {
@@ -29,6 +33,17 @@ const ProfilePage: React.FC = () => {
       });
     }
   }, [status, error, navigate]);
+
+  const handleSave = () => {
+    dispatch(updateProfile({ firstName, lastName }));
+    setEditMode(false);
+  };
+
+  const handleCancel = () => {
+    setFirstName(profile?.firstName || '');
+    setLastName(profile?.lastName || '');
+    setEditMode(false);
+  };
 
   const accounts = [
     {
@@ -62,9 +77,47 @@ const ProfilePage: React.FC = () => {
                 Welcome back <br />
                 {profile?.firstName} {profile?.lastName}!
               </h1>
-              <button className=" border-2 border-secondary bg-secondary p-[10px] text-[13px] font-bold text-white">
-                Edit Name
-              </button>
+              {editMode ? (
+                <div className="flex flex-col items-center justify-center gap-4">
+                  <div className="flex gap-8">
+                    <input
+                      type="text"
+                      value={firstName}
+                      className="rounded-none p-2 text-[1.2rem] text-primary"
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder={profile?.firstName}
+                    />
+                    <input
+                      type="text"
+                      value={lastName}
+                      className="rounded-none p-2 text-[1.2rem] text-primary"
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder={profile?.lastName}
+                    />
+                  </div>
+                  <div className="flex gap-8">
+                    <button
+                      className="w-28 border-2 border-secondary bg-white p-[10px] text-[13px] font-bold text-secondary"
+                      onClick={handleSave}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="w-28 border-2 border-secondary bg-white p-[10px] text-[13px] font-bold text-secondary"
+                      onClick={handleCancel}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  className="border-2 border-secondary bg-secondary p-[10px] text-[13px] font-bold text-white"
+                  onClick={() => setEditMode(true)}
+                >
+                  Edit Name
+                </button>
+              )}
             </div>
             <h2 className="sr-only">Accounts</h2>
             {accounts.map((account, index) => (
@@ -73,7 +126,7 @@ const ProfilePage: React.FC = () => {
                 className="mx-auto mb-8 box-border flex w-4/5 flex-col items-center justify-between border border-black bg-white p-6 text-left md:flex-row"
               >
                 <div className="w-full flex-1">
-                  <h3>{account.title}</h3>
+                  <h3> {account.title}</h3>
                   <p className="text-[2.5rem]/[3rem] font-bold">
                     {account.amount}
                   </p>
