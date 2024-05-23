@@ -60,32 +60,33 @@ const ProfilePage: React.FC = () => {
                 Welcome back <br />
                 {profile?.firstName} {profile?.lastName}!
               </h1>
-              <button className=" border border-secondary bg-secondary p-[10px] text-[13px] font-bold text-white">
+              <button className=" border-2 border-secondary bg-secondary p-[10px] text-[13px] font-bold text-white">
                 Edit Name
               </button>
             </div>
-            <div className="my-5 flex w-full flex-col items-center">
-              {accounts.map((account, index) => (
-                <div
-                  key={index}
-                  className="mb-6 flex w-4/5 flex-col items-center justify-between border border-black bg-white p-6 text-primary md:flex-row"
-                >
-                  <div className="w-full md:w-auto">
-                    <h3 className="text-lg">{account.title}</h3>
-                    <p className="text-4xl font-bold">{account.amount}</p>
-                    <p>{account.description}</p>
-                  </div>
-                  <div className="w-full md:w-auto">
-                    <Link
-                      to="/transactions"
-                      className="mt-4 bg-secondary px-4 py-2 font-bold text-white md:mt-0"
-                    >
-                      View transactions
-                    </Link>
-                  </div>
+            <h2 className="sr-only">Accounts</h2>
+            {accounts.map((account, index) => (
+              <section
+                key={index}
+                className="mx-auto mb-8 box-border flex w-4/5 flex-col items-center justify-between border border-black bg-white p-6 text-left md:flex-row"
+              >
+                <div className="w-full flex-1">
+                  <h3>{account.title}</h3>
+                  <p className="text-[2.5rem]/[3rem] font-bold">
+                    {account.amount}
+                  </p>
+                  <p>{account.description}</p>
                 </div>
-              ))}
-            </div>
+                <div className="w-full flex-1 md:flex-[0_1_0]">
+                  <Link
+                    to="/profile"
+                    className="mt-4 block w-full border-2 border-secondary bg-secondary p-2 text-center text-[1.1rem] font-bold text-white md:w-52"
+                  >
+                    View transactions
+                  </Link>
+                </div>
+              </section>
+            ))}
           </>
         )}
       </>
