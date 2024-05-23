@@ -71,8 +71,6 @@ const authSlice = createSlice({
 			state.token = null;
 			state.isLoggedIn = false;
 			Cookies.remove("token");
-			localStorage.removeItem("email");
-			localStorage.removeItem("password");
 		},
 		loadTokenFromStorage(state) {
 			const token = Cookies.get("token");

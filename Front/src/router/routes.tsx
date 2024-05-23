@@ -2,7 +2,6 @@ import { createBrowserRouter } from "react-router-dom";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
 import ProfilePage from "../pages/ProfilePage";
-import AuthMiddleware from "../middleware/authMiddleware";
 
 const routes = [
 	{
@@ -15,11 +14,7 @@ const routes = [
 	},
 	{
 		path: "/profile",
-		element: (
-			<AuthMiddleware>
-				<ProfilePage />
-			</AuthMiddleware>
-		),
+		element: <ProfilePage />,
 	},
 ];
 

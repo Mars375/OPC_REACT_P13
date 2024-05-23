@@ -22,8 +22,6 @@ const Header: React.FC = () => {
 		dispatch(logout());
 	};
 
-	console.log(profile);
-
 	return (
 		<nav className='flex justify-between items-center px-5 py-[5px] bg-white'>
 			<Link className='flex items-center' to='/'>
@@ -39,7 +37,9 @@ const Header: React.FC = () => {
 					<>
 						<span className='font-bold mr-2'>
 							<FontAwesomeIcon icon='user-circle' className='mr-1' />
-							{profile?.firstName}
+							<Link to='/profile' className='font-bold hover:underline'>
+								{profile?.firstName}
+							</Link>
 						</span>
 						<Link
 							className='font-bold hover:underline'

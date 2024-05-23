@@ -5,6 +5,7 @@ import { login } from "../redux/authSlice";
 import { useNavigate, useLocation } from "react-router-dom";
 import Layout from "../Layouts/Layout";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { setItemWithExpiry, getItemWithExpiry } from "../utils/storage";
 
 const LoginPage: React.FC = () => {
 	const [email, setEmail] = useState("");
@@ -21,9 +22,8 @@ const LoginPage: React.FC = () => {
 			setLoginError(location.state.error);
 		}
 
-		// Pré-remplir les champs si "Remember Me" a été coché précédemment
-		const savedEmail = localStorage.getItem("email");
-		const savedPassword = localStorage.getItem("password");
+		const savedEmail = getItemWithExpiry("email");
+		const savedPassword = getItemWithExpiry("password");
 		if (savedEmail && savedPassword) {
 			setEmail(savedEmail);
 			setPassword(savedPassword);
@@ -37,8 +37,8 @@ const LoginPage: React.FC = () => {
 			const action = await dispatch(login({ email, password, rememberMe }));
 			if (login.fulfilled.match(action)) {
 				if (rememberMe) {
-					localStorage.setItem("email", email);
-					localStorage.setItem("password", password);
+					setItemWithExpiry("email", email, 7);
+					setItemWithExpiry("password", password, 7);
 				} else {
 					localStorage.removeItem("email");
 					localStorage.removeItem("password");
