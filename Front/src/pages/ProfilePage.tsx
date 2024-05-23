@@ -1,19 +1,51 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import { fetchProfile } from "../redux/profileSlice";
+import { useNavigate } from "react-router-dom";
 import Layout from "../Layouts/Layout";
+import { AppDispatch } from "../redux/store";
 
 const ProfilePage: React.FC = () => {
-	const token = useSelector((state: RootState) => state.auth.token);
+	const dispatch = useDispatch<AppDispatch>();
+	const navigate = useNavigate();
+	const { profile, status, error } = useSelector(
+		(state: RootState) => state.profile
+	);
+	const { isLoggedIn } = useSelector((state: RootState) => state.auth);
+
+	useEffect(() => {
+		if (isLoggedIn && !profile) {
+			dispatch(fetchProfile());
+		}
+	}, [isLoggedIn, profile, dispatch]);
+
+	useEffect(() => {
+		if (status === "failed" && error === "Session expired") {
+			navigate("/login", {
+				state: { error: "Session expired. Please log in again." },
+			});
+		}
+	}, [status, error, navigate]);
+
+	console.log(profile);
 
 	return (
 		<Layout>
-			<div className='flex flex-col items-center justify-center min-h-screen bg-dark'>
-				<section className='bg-white p-8 rounded shadow-md w-80'>
-					<h1 className='text-2xl font-bold mb-4'>Profile Page</h1>
-					<p>Welcome to your profile!</p>
-					<p>Your token: {token}</p>
-				</section>
+			<div>
+				{status === "loading" ? (
+					<p>Loading...</p>
+				) : error ? (
+					<p className='text-red-500'>{error}</p>
+				) : (
+					<div>
+						<h1>Profile</h1>
+						<p>
+							Name: {profile?.firstName} {profile?.lastName}
+						</p>
+						<p>Email: {profile?.email}</p>
+					</div>
+				)}
 			</div>
 		</Layout>
 	);

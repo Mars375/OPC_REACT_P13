@@ -13,27 +13,47 @@ const LoginPage: React.FC = () => {
 	const dispatch = useDispatch<AppDispatch>();
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { status, error } = useSelector((state: RootState) => state.auth);
+	const { status } = useSelector((state: RootState) => state.auth);
 	const [loginError, setLoginError] = useState<string | null>(null);
 
 	useEffect(() => {
 		if (location.state && location.state.error) {
 			setLoginError(location.state.error);
 		}
+
+		// Pré-remplir les champs si "Remember Me" a été coché précédemment
+		const savedEmail = localStorage.getItem("email");
+		const savedPassword = localStorage.getItem("password");
+		if (savedEmail && savedPassword) {
+			setEmail(savedEmail);
+			setPassword(savedPassword);
+			setRememberMe(true);
+		}
 	}, [location.state]);
 
-	const handleSubmit = (e: React.FormEvent) => {
+	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		dispatch(login({ email, password })).then((action) => {
+		try {
+			const action = await dispatch(login({ email, password, rememberMe }));
 			if (login.fulfilled.match(action)) {
 				if (rememberMe) {
-					localStorage.setItem("token", action.payload);
+					localStorage.setItem("email", email);
+					localStorage.setItem("password", password);
 				} else {
-					sessionStorage.setItem("token", action.payload);
+					localStorage.removeItem("email");
+					localStorage.removeItem("password");
 				}
 				navigate("/profile");
+			} else {
+				setLoginError(
+					typeof action.payload === "string"
+						? action.payload
+						: "Login failed. Please try again."
+				);
 			}
-		});
+		} catch (err) {
+			setLoginError("An unexpected error occurred. Please try again.");
+		}
 	};
 
 	return (
@@ -86,9 +106,6 @@ const LoginPage: React.FC = () => {
 						>
 							{status === "loading" ? "Signing In..." : "Sign In"}
 						</button>
-						{status === "failed" && (
-							<p className='text-red-500 mt-4'>{error}</p>
-						)}
 					</form>
 				</section>
 			</>

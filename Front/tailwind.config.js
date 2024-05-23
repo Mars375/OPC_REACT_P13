@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       screens: {
-        'custom': '920px', // Ajoute une nouvelle taille de media query nommée 'custom'
+        'custom': '920px',
       },
       fontFamily: {
         sans: ['Avenir', 'Helvetica', 'Arial', 'sans-serif'],
