@@ -23,11 +23,9 @@ const TransactionDetailPage: React.FC = () => {
   if (status === 'loading') {
     return <div>Loading transaction details...</div>;
   }
-
   if (status === 'failed') {
     return <div>Error: {error}</div>;
   }
-
   return (
     <Layout backgroundColor="bg-[#dfe6ed]">
       <div className="container mx-auto p-4">
@@ -50,14 +48,32 @@ const TransactionDetailPage: React.FC = () => {
               Amount: {transaction.amount}
             </p>
             <p className="text-sm text-gray-500">
+              Balance: {transaction.balance}
+            </p>
+            <p className="text-sm text-gray-500">Type: {transaction.type}</p>
+            <p className="text-sm text-gray-500">
               Category: {transaction.category}
             </p>
             <p className="text-sm text-gray-500">Notes: {transaction.notes}</p>
+            <p className="text-sm text-gray-500">
+              Merchant: {transaction.merchant}
+            </p>
+            <p className="text-sm text-gray-500">
+              Location: {transaction.location}
+            </p>
+            <p className="text-sm text-gray-500">
+              Status: {transaction.status}
+            </p>
+            <p className="text-sm text-gray-500">
+              Currency: {transaction.currency}
+            </p>
+            <p className="text-sm text-gray-500">
+              Payment Method: {transaction.paymentMethod}
+            </p>
           </div>
         )}
       </div>
     </Layout>
   );
 };
-
 export default TransactionDetailPage;

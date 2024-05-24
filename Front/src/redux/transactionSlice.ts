@@ -17,6 +17,11 @@ interface Transaction {
   type: string;
   category: string;
   notes: string;
+  merchant: string;
+  location: string;
+  status: string;
+  currency: string;
+  paymentMethod: string;
 }
 
 interface TransactionState {
