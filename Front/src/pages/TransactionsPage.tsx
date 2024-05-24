@@ -14,10 +14,14 @@ const TransactionsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { accountId } = useParams<{ accountId: string }>();
-  const { accounts } = useSelector((state: RootState) => state.account);
-  const { transactions, status } = useSelector(
-    (state: RootState) => state.transaction
+  const { accounts, error: accountsError } = useSelector(
+    (state: RootState) => state.account
   );
+  const {
+    transactions,
+    status,
+    error: transactionsError,
+  } = useSelector((state: RootState) => state.transaction);
   const { profile } = useSelector((state: RootState) => state.profile);
 
   // Find the account by accountId
@@ -70,13 +74,35 @@ const TransactionsPage: React.FC = () => {
         <div className="flex items-center justify-start p-4">
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center text-blue-500 transition-colors duration-200 hover:text-blue-700"
+            className="flex items-center text-secondary transition-colors duration-200 hover:text-[#00A96B]"
           >
             <FontAwesomeIcon icon="arrow-left" className="mr-2" />
             <span className="text-lg font-medium">Retour</span>
           </button>
         </div>
-        {account ? (
+        {accountsError ? (
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">{accountsError}</span>
+          </div>
+        ) : transactionsError ? (
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">{transactionsError}</span>
+          </div>
+        ) : account ? (
           <>
             <header className="border-2 border-gray-200 bg-white p-6 text-center">
               <h1 className="text-xl font-bold">{account.title}</h1>

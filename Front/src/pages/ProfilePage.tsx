@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
 import { fetchProfile, updateProfile } from '../redux/profileSlice';
-import { fetchAccountsThunk } from '../redux/accountSlice'; // Import fetchAccountsThunk
+import { fetchAccountsThunk } from '../redux/accountSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
 import { AppDispatch } from '../redux/store';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -68,9 +69,27 @@ const ProfilePage: React.FC = () => {
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid  border-current border-e-transparent align-[-0.125em] text-secondary motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
           </div>
         ) : profileError ? (
-          <p className="text-red-500">{profileError}</p>
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">{profileError}</span>
+          </div>
         ) : accountsError ? (
-          <p className="text-red-500">{accountsError}</p>
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">{accountsError}</span>
+          </div>
         ) : (
           <>
             <div className="mb-8 text-primary">

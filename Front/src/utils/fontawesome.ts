@@ -6,6 +6,7 @@ import {
   faSave,
   faChevronDown,
   faArrowLeft,
+  faExclamationCircle,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -14,5 +15,6 @@ library.add(
   faPencilAlt,
   faSave,
   faChevronDown,
-  faArrowLeft
+  faArrowLeft,
+  faExclamationCircle
 );
