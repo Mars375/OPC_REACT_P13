@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { fetchTransactions, updateTransaction } from '../mocks/mockApi';
+import {
+  fetchTransactions,
+  updateTransaction,
+  fetchTransactionById,
+} from '../mocks/mockApi';
 import errorMessages from '../config/errorMessages';
 import { AxiosError } from 'axios';
 
@@ -17,12 +21,14 @@ interface Transaction {
 
 interface TransactionState {
   transactions: Transaction[];
+  transaction: Transaction | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 
 const initialState: TransactionState = {
   transactions: [],
+  transaction: null,
   status: 'idle',
   error: null,
 };
@@ -52,6 +58,35 @@ export const fetchTransactionsThunk = createAsyncThunk(
         return rejectWithValue(errorMessage);
       }
       return rejectWithValue(errorMessages.FETCH_TRANSACTIONS_FAILED);
+    }
+  }
+);
+
+// Async action to fetch a single transaction by ID
+export const fetchTransactionByIdThunk = createAsyncThunk(
+  'transaction/fetchTransactionById',
+  async (transactionId: string, { rejectWithValue }) => {
+    try {
+      const response = (await fetchTransactionById(transactionId)) as {
+        data: { body: Transaction };
+      };
+      return response.data.body;
+    } catch (error) {
+      if (
+        error instanceof AxiosError &&
+        error.response &&
+        error.response.data
+      ) {
+        const status = error.response.status;
+        let errorMessage = errorMessages.FETCH_TRANSACTION_FAILED;
+        if (status === 401) {
+          errorMessage = errorMessages.UNAUTHORIZED;
+        } else if (status === 404) {
+          errorMessage = errorMessages.NOT_FOUND;
+        }
+        return rejectWithValue(errorMessage);
+      }
+      return rejectWithValue(errorMessages.FETCH_TRANSACTION_FAILED);
     }
   }
 );
@@ -114,6 +149,17 @@ const transactionSlice = createSlice({
         state.transactions = action.payload;
       })
       .addCase(fetchTransactionsThunk.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.payload as string;
+      })
+      .addCase(fetchTransactionByIdThunk.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchTransactionByIdThunk.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.transaction = action.payload;
+      })
+      .addCase(fetchTransactionByIdThunk.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
       })

@@ -11,6 +11,7 @@ const errorMessages = {
   FETCH_ACCOUNTS_FAILED: 'Failed to fetch accounts. Please try again.',
   UPDATE_TRANSACTION_FAILED: 'Failed to update transaction. Please try again.',
   FETCH_TRANSACTIONS_FAILED: 'Failed to fetch transactions. Please try again.',
+  FETCH_TRANSACTION_FAILED: 'Failed to fetch transaction. Please try again.',
 };
 
 export default errorMessages;
