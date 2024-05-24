@@ -16,6 +16,7 @@ import {
   faInfoCircle,
   faMoneyBillWave,
   faCreditCard,
+  faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -34,5 +35,6 @@ library.add(
   faMapMarkerAlt,
   faInfoCircle,
   faMoneyBillWave,
-  faCreditCard
+  faCreditCard,
+  faSearch
 );

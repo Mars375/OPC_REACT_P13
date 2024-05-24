@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../redux/store';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -146,6 +146,13 @@ const TransactionsPage: React.FC = () => {
                         <div className="w-4/12">{transaction.description}</div>
                         <div className="w-2/12">{transaction.amount}</div>
                         <div className="w-2/12">{transaction.balance}</div>
+
+                        <Link to={`${transaction.transactionId}`}>
+                          <FontAwesomeIcon
+                            icon="search"
+                            className="ml-4 cursor-pointer text-gray-500"
+                          />
+                        </Link>
                       </div>
                       <div
                         className={`transition-max-height overflow-hidden duration-300 ease-in-out ${expandedIndices.includes(index) ? 'max-h-screen' : 'max-h-0'}`}
@@ -233,7 +240,7 @@ const TransactionsPage: React.FC = () => {
                                   onClick={() =>
                                     handleSave(transaction.transactionId)
                                   }
-                                  className="rounded bg-blue-500 px-4 py-2 text-white"
+                                  className="rounded bg-secondary px-4 py-2 text-white"
                                 >
                                   Save
                                 </button>
