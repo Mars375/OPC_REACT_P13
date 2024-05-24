@@ -55,7 +55,9 @@ const TransactionDetailPage: React.FC = () => {
               </button>
             </div>
             <div className="container mx-auto p-4">
-              <h1 className="mb-4 text-2xl font-bold">Transaction Details</h1>
+              <h1 className="mb-4 text-2xl font-bold">
+                {transaction?.description}
+              </h1>
               {transaction && (
                 <div className="rounded-lg bg-white p-6 shadow-md">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
