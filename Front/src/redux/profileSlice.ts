@@ -16,12 +16,14 @@ interface ProfileState {
   profile: Profile | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  isLoggedIn: boolean;
 }
 
 const initialState: ProfileState = {
   profile: null,
   status: 'idle',
   error: null,
+  isLoggedIn: false,
 };
 
 // Async action to fetch user profile
@@ -94,6 +96,7 @@ const profileSlice = createSlice({
       state.profile = null;
       state.status = 'idle';
       state.error = null;
+      state.isLoggedIn = false;
     },
   },
   extraReducers: (builder) => {
@@ -104,10 +107,12 @@ const profileSlice = createSlice({
       .addCase(fetchProfile.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.profile = action.payload;
+        state.isLoggedIn = true;
       })
       .addCase(fetchProfile.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
+        state.isLoggedIn = false;
       })
       .addCase(updateProfile.pending, (state) => {
         state.status = 'loading';

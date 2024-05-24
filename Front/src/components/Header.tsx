@@ -11,8 +11,9 @@ import { clearAccounts } from '../redux/accountSlice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
-  const { profile } = useSelector((state: RootState) => state.profile);
+  const { profile, isLoggedIn } = useSelector(
+    (state: RootState) => state.profile
+  );
 
   useEffect(() => {
     if (isLoggedIn && !profile) {

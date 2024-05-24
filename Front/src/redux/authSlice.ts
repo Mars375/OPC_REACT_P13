@@ -9,14 +9,12 @@ interface AuthState {
   token: string | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
-  isLoggedIn: boolean;
 }
 
 const initialState: AuthState = {
   token: null,
   status: 'idle',
   error: null,
-  isLoggedIn: false,
 };
 
 // Async action to handle user login
@@ -75,10 +73,7 @@ const authSlice = createSlice({
     // Action to handle user logout
     logout(state) {
       state.token = null;
-      state.isLoggedIn = false;
       Cookies.remove('token');
-      localStorage.removeItem('email');
-      localStorage.removeItem('password');
       localStorage.removeItem('accounts');
       localStorage.removeItem('accounts_expiration');
     },
@@ -87,7 +82,6 @@ const authSlice = createSlice({
       const token = Cookies.get('token');
       if (token) {
         state.token = token;
-        state.isLoggedIn = true;
       }
     },
   },
@@ -99,12 +93,10 @@ const authSlice = createSlice({
       .addCase(login.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.token = action.payload;
-        state.isLoggedIn = true;
       })
       .addCase(login.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
-        state.isLoggedIn = false;
       });
   },
 });

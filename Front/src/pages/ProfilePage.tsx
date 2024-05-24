@@ -26,18 +26,17 @@ const ProfilePage: React.FC = () => {
     status: accountsStatus,
     error: accountsError,
   } = useSelector((state: RootState) => state.account);
-  const { isLoggedIn } = useSelector((state: RootState) => state.auth);
 
   const [editMode, setEditMode] = useState(false);
   const [firstName, setFirstName] = useState(profile?.firstName || '');
   const [lastName, setLastName] = useState(profile?.lastName || '');
 
   useEffect(() => {
-    if (isLoggedIn && !profile) {
+    if (!profile) {
       // Fetch user profile if logged in and profile is not loaded
       dispatch(fetchProfile());
     }
-  }, [isLoggedIn, profile, dispatch]);
+  }, [profile, dispatch]);
 
   useEffect(() => {
     if (profile && profile.id) {
