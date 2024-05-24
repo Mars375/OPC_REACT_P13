@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../redux/store';
-import { fetchProfile, updateProfile } from '../redux/profileSlice';
+import {
+  clearProfile,
+  fetchProfile,
+  updateProfile,
+} from '../redux/profileSlice';
 import { fetchAccountsThunk } from '../redux/accountSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
@@ -52,6 +56,7 @@ const ProfilePage: React.FC = () => {
     if (profileStatus === 'failed' && profileError === 'Unauthorized') {
       // Redirect to login page if session expired
       dispatch(logout());
+      dispatch(clearProfile());
       navigate('/login', {
         state: {
           error: 'You are not authorized to view this profile. Please log in.',
@@ -77,17 +82,6 @@ const ProfilePage: React.FC = () => {
         {profileStatus === 'loading' || accountsStatus === 'loading' ? (
           <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
             <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid  border-current border-e-transparent align-[-0.125em] text-secondary motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
-          </div>
-        ) : profileError ? (
-          <div
-            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
-            role="alert"
-          >
-            <FontAwesomeIcon
-              icon="exclamation-circle"
-              className="mr-3 inline h-5 w-5"
-            />
-            <span className="font-medium">{profileError}</span>
           </div>
         ) : accountsError ? (
           <div
