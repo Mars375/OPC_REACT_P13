@@ -68,10 +68,6 @@ const TransactionsPage: React.FC = () => {
     }
   };
 
-  console.log(accountsError);
-
-  console.log(transactionsError);
-
   return (
     <Layout backgroundColor="bg-[#dfe6ed]">
       <>

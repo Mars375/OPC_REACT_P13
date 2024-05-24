@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import HomePage from '../pages/HomePage';
 import LoginPage from '../pages/LoginPage';
 import ProfilePage from '../pages/ProfilePage';
-import AccountsPage from '../pages/AccountsPage';
+import TransactionsPage from '../pages/TransactionsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 
 const routes = [
@@ -19,8 +19,8 @@ const routes = [
     element: <ProfilePage />,
   },
   {
-    path: 'profile/accounts/:accountId',
-    element: <AccountsPage />,
+    path: 'profile/transactions/:accountId',
+    element: <TransactionsPage />,
   },
   {
     path: '*', // Catch-all route pour les URLs non définies
