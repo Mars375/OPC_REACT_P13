@@ -41,7 +41,7 @@ export const fetchProfile = createAsyncThunk(
         let errorMessage = errorMessages.FETCH_PROFILE_FAILED;
 
         if (status === 401) {
-          errorMessage = errorMessages.UNAUTHORIZED;
+          errorMessage = 'Unauthorized';
         } else if (status === 404) {
           errorMessage = errorMessages.NOT_FOUND;
         }

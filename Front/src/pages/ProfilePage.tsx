@@ -7,6 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
 import { AppDispatch } from '../redux/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { logout } from '../redux/authSlice';
 
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -46,6 +47,15 @@ const ProfilePage: React.FC = () => {
       // Redirect to login page if session expired
       navigate('/login', {
         state: { error: 'Session expired. Please log in again.' },
+      });
+    }
+    if (profileStatus === 'failed' && profileError === 'Unauthorized') {
+      // Redirect to login page if session expired
+      dispatch(logout());
+      navigate('/login', {
+        state: {
+          error: 'You are not authorized to view this profile. Please log in.',
+        },
       });
     }
   }, [profileStatus, profileError, navigate]);

@@ -53,9 +53,20 @@ const LoginPage: React.FC = () => {
   return (
     <Layout backgroundColor="bg-[#dfe6ed]">
       <>
+        {loginError && (
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">{loginError}</span>
+          </div>
+        )}
         <section className="mx-auto mt-12 box-border w-[300px] bg-white p-8">
           <FontAwesomeIcon icon="user-circle" />
-          {loginError && <p className="mb-4 text-red-500">{loginError}</p>}
           <h1 className="my-5 text-2xl font-bold">Sign In</h1>
           <form onSubmit={handleSubmit}>
             <div className="mb-4 flex flex-col text-left">

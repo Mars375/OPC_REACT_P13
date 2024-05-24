@@ -68,6 +68,10 @@ const TransactionsPage: React.FC = () => {
     }
   };
 
+  console.log(accountsError);
+
+  console.log(transactionsError);
+
   return (
     <Layout backgroundColor="bg-[#dfe6ed]">
       <>
@@ -249,7 +253,16 @@ const TransactionsPage: React.FC = () => {
             </section>
           </>
         ) : (
-          <p className="text-red-500">Account not found</p>
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">Error: Account not found</span>
+          </div>
         )}
       </>
     </Layout>

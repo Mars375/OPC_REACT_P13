@@ -77,6 +77,10 @@ const authSlice = createSlice({
       state.token = null;
       state.isLoggedIn = false;
       Cookies.remove('token');
+      localStorage.removeItem('email');
+      localStorage.removeItem('password');
+      localStorage.removeItem('accounts');
+      localStorage.removeItem('accounts_expiration');
     },
     // Action to load token from cookies
     loadTokenFromStorage(state) {
