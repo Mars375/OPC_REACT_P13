@@ -7,6 +7,15 @@ import {
   faChevronDown,
   faArrowLeft,
   faExclamationCircle,
+  faCalendarAlt,
+  faDollarSign,
+  faTag,
+  faStickyNote,
+  faStore,
+  faMapMarkerAlt,
+  faInfoCircle,
+  faMoneyBillWave,
+  faCreditCard,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -16,5 +25,14 @@ library.add(
   faSave,
   faChevronDown,
   faArrowLeft,
-  faExclamationCircle
+  faExclamationCircle,
+  faCalendarAlt,
+  faDollarSign,
+  faTag,
+  faStickyNote,
+  faStore,
+  faMapMarkerAlt,
+  faInfoCircle,
+  faMoneyBillWave,
+  faCreditCard
 );
