@@ -7,6 +7,7 @@ import { clearProfile } from '../redux/profileSlice';
 import { logout } from '../redux/authSlice';
 import { fetchProfile } from '../redux/profileSlice';
 import { AppDispatch, RootState } from '../redux/store';
+import { clearAccounts } from '../redux/accountSlice';
 
 const Header: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -24,6 +25,7 @@ const Header: React.FC = () => {
     // Dispatch logout action
     dispatch(clearProfile());
     dispatch(logout());
+    dispatch(clearAccounts());
   };
 
   return (

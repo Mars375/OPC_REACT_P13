@@ -51,7 +51,7 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <Layout backgroundColor="bg-[#12002b]">
+    <Layout backgroundColor="bg-[#dfe6ed]">
       <>
         <section className="mx-auto mt-12 box-border w-[300px] bg-white p-8">
           <FontAwesomeIcon icon="user-circle" />
