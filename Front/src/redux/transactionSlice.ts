@@ -107,7 +107,7 @@ export const updateTransactionThunk = createAsyncThunk(
     }: {
       accountId: string;
       transactionId: string;
-      updates: { category?: string; notes?: string };
+      updates: { category?: string; notes?: string; description?: string };
     },
     { rejectWithValue }
   ) => {

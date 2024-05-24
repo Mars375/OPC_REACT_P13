@@ -1,11 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import Layout from '../Layouts/Layout';
-import { fetchTransactionByIdThunk } from '../redux/transactionSlice';
+import {
+  fetchTransactionByIdThunk,
+  updateTransactionThunk,
+} from '../redux/transactionSlice';
 import { RootState } from '../redux/store';
 import { AppDispatch } from '../redux/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
 const TransactionDetailPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -15,11 +19,37 @@ const TransactionDetailPage: React.FC = () => {
     (state: RootState) => state.transaction
   );
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [description, setDescription] = useState('');
+  const [category, setCategory] = useState('');
+  const [notes, setNotes] = useState('');
+
   useEffect(() => {
     if (transactionId) {
       dispatch(fetchTransactionByIdThunk(transactionId));
     }
   }, [dispatch, transactionId]);
+
+  useEffect(() => {
+    if (transaction) {
+      setDescription(transaction.description);
+      setCategory(transaction.category);
+      setNotes(transaction.notes);
+    }
+  }, [transaction]);
+
+  const handleSave = () => {
+    if (transaction) {
+      dispatch(
+        updateTransactionThunk({
+          accountId: transaction.accountId,
+          transactionId: transaction.transactionId,
+          updates: { description, category, notes },
+        })
+      );
+      setIsEditing(false);
+    }
+  };
 
   if (status === 'failed') {
     return (
@@ -55,9 +85,26 @@ const TransactionDetailPage: React.FC = () => {
               </button>
             </div>
             <div className="container mx-auto p-4">
-              <h1 className="mb-4 text-2xl font-bold">
-                {transaction?.description}
-              </h1>
+              <div className="mb-4 flex items-center justify-between">
+                {isEditing ? (
+                  <input
+                    type="text"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    className="w-full border-b-2 border-[#00A96B] bg-[#dfe6ed] p-2 text-2xl font-bold outline-none"
+                    placeholder="Description"
+                  />
+                ) : (
+                  <h1 className="text-2xl font-bold">
+                    {transaction?.description}
+                  </h1>
+                )}
+                <FontAwesomeIcon
+                  icon={faEdit}
+                  className="ml-4 cursor-pointer text-gray-500"
+                  onClick={() => setIsEditing(!isEditing)}
+                />
+              </div>
               {transaction && (
                 <div className="rounded-lg bg-white p-6 shadow-md">
                   <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -84,19 +131,21 @@ const TransactionDetailPage: React.FC = () => {
                         icon="tag"
                         className="mr-2 text-gray-500"
                       />
-                      <p className="text-lg font-medium">
-                        Category: {transaction.category}
-                      </p>
+                      {isEditing ? (
+                        <input
+                          type="text"
+                          value={category}
+                          onChange={(e) => setCategory(e.target.value)}
+                          className="w-full rounded border p-2 outline-none"
+                          placeholder="Category"
+                        />
+                      ) : (
+                        <p className="text-lg font-medium">
+                          Category: {transaction.category}
+                        </p>
+                      )}
                     </div>
-                    <div className="flex items-center">
-                      <FontAwesomeIcon
-                        icon="sticky-note"
-                        className="mr-2 text-gray-500"
-                      />
-                      <p className="text-lg font-medium">
-                        Notes: {transaction.notes}
-                      </p>
-                    </div>
+
                     <div className="flex items-center">
                       <FontAwesomeIcon
                         icon="store"
@@ -142,6 +191,33 @@ const TransactionDetailPage: React.FC = () => {
                         Payment Method: {transaction.paymentMethod}
                       </p>
                     </div>
+                  </div>
+                  <div className="mt-4">
+                    <p className="text-lg font-medium">
+                      <FontAwesomeIcon
+                        icon="sticky-note"
+                        className="mr-2 text-gray-500"
+                      />
+                      Notes: {transaction.notes}
+                    </p>
+                    {isEditing && (
+                      <textarea
+                        value={notes}
+                        onChange={(e) => setNotes(e.target.value)}
+                        className="w-full rounded border p-2 outline-none"
+                        placeholder="Notes"
+                      />
+                    )}
+                  </div>
+                  <div className="mt-4 flex justify-end">
+                    {isEditing && (
+                      <button
+                        onClick={handleSave}
+                        className="rounded bg-blue-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700"
+                      >
+                        Save
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
