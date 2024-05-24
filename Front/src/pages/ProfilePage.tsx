@@ -64,7 +64,9 @@ const ProfilePage: React.FC = () => {
     <Layout backgroundColor="bg-[#dfe6ed]">
       <>
         {profileStatus === 'loading' || accountsStatus === 'loading' ? (
-          <p>Loading...</p>
+          <div className="absolute left-0 top-0 z-50 flex h-full w-full items-center justify-center">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-solid  border-current border-e-transparent align-[-0.125em] text-secondary motion-reduce:animate-[spin_1.5s_linear_infinite]"></div>
+          </div>
         ) : profileError ? (
           <p className="text-red-500">{profileError}</p>
         ) : accountsError ? (

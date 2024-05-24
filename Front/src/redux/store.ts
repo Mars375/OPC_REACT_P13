@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit';
 import profileReducer from './profileSlice';
 import authReducer from './authSlice';
 import accountReducer from './accountSlice';
+import transactionReducer from './transactionSlice';
 
 // Configure the Redux store with auth and profile reducers
 const store = configureStore({
@@ -9,6 +10,7 @@ const store = configureStore({
     profile: profileReducer,
     auth: authReducer,
     account: accountReducer,
+    transaction: transactionReducer,
   },
 });
 

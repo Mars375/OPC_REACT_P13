@@ -84,11 +84,11 @@ time,
 mark,
 audio,
 video {
-	margin: 0;
-	padding: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
+  margin: 0;
+  padding: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -102,40 +102,40 @@ hgroup,
 menu,
 nav,
 section {
-	display: block;
+  display: block;
 }
 img {
-	display: inline-block;
+  display: inline-block;
 }
 body {
-	line-height: 1;
+  line-height: 1;
 }
 ol,
 ul {
-	list-style: none;
+  list-style: none;
 }
 blockquote,
 q {
-	quotes: none;
+  quotes: none;
 }
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-	content: "";
-	content: none;
+  content: '';
+  content: none;
 }
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
+  border-collapse: collapse;
+  border-spacing: 0;
 }
 /* Ajouter les styles Tailwind après le reset */
 html {
-	@apply font-sans text-center text-primary;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  @apply text-center font-sans text-primary;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 #root {
-	@apply m-0 flex flex-col min-h-screen;
+  @apply m-0 flex min-h-screen flex-col;
 }

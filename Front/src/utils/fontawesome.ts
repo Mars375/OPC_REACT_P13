@@ -5,6 +5,14 @@ import {
   faPencilAlt,
   faSave,
   faChevronDown,
+  faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faUserCircle, faSignOutAlt, faPencilAlt, faSave, faChevronDown);
+library.add(
+  faUserCircle,
+  faSignOutAlt,
+  faPencilAlt,
+  faSave,
+  faChevronDown,
+  faArrowLeft
+);
