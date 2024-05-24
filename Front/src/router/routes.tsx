@@ -18,7 +18,7 @@ const routes = [
     element: <ProfilePage />,
   },
   {
-    path: '/accounts/:accountId',
+    path: 'profile/accounts/:accountId',
     element: <AccountsPage />,
   },
 ];

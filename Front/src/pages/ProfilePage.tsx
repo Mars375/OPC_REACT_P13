@@ -154,7 +154,7 @@ const ProfilePage: React.FC = () => {
                 </div>
                 <div className="w-full flex-1 md:flex-[0_1_0]">
                   <Link
-                    to={`/accounts/${account.accountId}`}
+                    to={`accounts/${account.accountId}`}
                     className="mt-4 block w-full border-2 border-secondary bg-secondary p-2 text-center text-[1.1rem] font-bold text-white md:w-52"
                   >
                     View transactions
