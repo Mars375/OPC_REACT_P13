@@ -132,13 +132,19 @@ const TransactionDetailPage: React.FC = () => {
                         className="mr-2 text-gray-500"
                       />
                       {isEditing ? (
-                        <input
-                          type="text"
+                        <select
                           value={category}
                           onChange={(e) => setCategory(e.target.value)}
                           className="w-full rounded border p-2 outline-none"
-                          placeholder="Category"
-                        />
+                        >
+                          <option value="Food">Food</option>
+                          <option value="Groceries">Groceries</option>
+                          <option value="Transport">Transport</option>
+                          <option value="Entertainment">Entertainment</option>
+                          <option value="Shopping">Shopping</option>
+                          <option value="Health">Health</option>
+                          <option value="Other">Other</option>
+                        </select>
                       ) : (
                         <p className="text-lg font-medium">
                           Category: {transaction.category}
@@ -213,7 +219,7 @@ const TransactionDetailPage: React.FC = () => {
                     {isEditing && (
                       <button
                         onClick={handleSave}
-                        className="rounded bg-blue-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-blue-700"
+                        className="rounded bg-secondary px-4 py-2 text-white transition-colors duration-200 hover:bg-[#00A96B]"
                       >
                         Save
                       </button>
