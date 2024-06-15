@@ -20,6 +20,12 @@ interface AccountState {
 const ACCOUNTS_STORAGE_KEY = 'accounts';
 const ACCOUNTS_EXPIRATION_KEY = 'accounts_expiration';
 
+/**
+ * Load accounts from localStorage.
+ * If the accounts are expired or not found, return an empty array.
+ *
+ * @returns {Account[]} The list of accounts.
+ */
 const loadAccountsFromLocalStorage = (): Account[] => {
   try {
     const serializedAccounts = localStorage.getItem(ACCOUNTS_STORAGE_KEY);
@@ -43,6 +49,11 @@ const loadAccountsFromLocalStorage = (): Account[] => {
   }
 };
 
+/**
+ * Save accounts to localStorage with an expiration date of 1 day.
+ *
+ * @param {Account[]} accounts - The list of accounts to save.
+ */
 const saveAccountsToLocalStorage = (accounts: Account[]) => {
   try {
     const serializedAccounts = JSON.stringify(accounts);
@@ -95,6 +106,11 @@ const accountSlice = createSlice({
   name: 'account',
   initialState,
   reducers: {
+    /**
+     * Clear all accounts from the state and localStorage.
+     *
+     * @param {AccountState} state - The current state of the account slice.
+     */
     clearAccounts(state) {
       state.accounts = [];
       state.status = 'idle';
