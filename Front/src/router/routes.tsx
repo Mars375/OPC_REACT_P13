@@ -6,6 +6,10 @@ import TransactionsPage from '../pages/TransactionsPage';
 import NotFoundPage from '../pages/NotFoundPage';
 import TransactionDetailPage from '../pages/TransactionDetailPage';
 
+/**
+ * Define the routes for the application.
+ * Each route is associated with a path and a corresponding component.
+ */
 const routes = [
   {
     path: '/',
@@ -28,7 +32,7 @@ const routes = [
     element: <TransactionDetailPage />,
   },
   {
-    path: '*', // Catch-all route pour les URLs non définies
+    path: '*', // Catch-all route for undefined URLs
     element: <NotFoundPage />,
   },
 ];
