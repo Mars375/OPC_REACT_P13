@@ -9,21 +9,31 @@ import { fetchProfile } from '../redux/profileSlice';
 import { AppDispatch, RootState } from '../redux/store';
 import { clearAccounts } from '../redux/accountSlice';
 
+/**
+ * Header component displays the navigation bar of the application.
+ * It shows the logo, user profile link if logged in, and sign in/sign out links.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Header />
+ * )
+ */
 const Header: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { profile, isLoggedIn } = useSelector(
     (state: RootState) => state.profile
   );
 
+  // Fetch user profile if logged in and profile is not loaded
   useEffect(() => {
     if (isLoggedIn && !profile) {
-      // Fetch user profile if logged in and profile is not loaded
       dispatch(fetchProfile());
     }
   }, [isLoggedIn, profile, dispatch]);
 
+  // Handle user logout
   const handleLogout = () => {
-    // Dispatch logout action
     dispatch(clearProfile());
     dispatch(logout());
     dispatch(clearAccounts());
