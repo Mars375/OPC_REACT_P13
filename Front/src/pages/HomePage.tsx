@@ -5,6 +5,16 @@ import iconChat from '../assets/icon-chat.png';
 import iconMoney from '../assets/icon-money.png';
 import iconSecurity from '../assets/icon-security.png';
 
+/**
+ * HomePage component displays the home page of the application.
+ * It includes a hero section with promotional content and a features section.
+ *
+ * @component
+ * @example
+ * return (
+ *   <HomePage />
+ * )
+ */
 const HomePage: React.FC = () => {
   return (
     <Layout>
