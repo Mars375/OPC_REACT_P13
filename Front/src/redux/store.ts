@@ -4,7 +4,9 @@ import authReducer from './authSlice';
 import accountReducer from './accountSlice';
 import transactionReducer from './transactionSlice';
 
-// Configure the Redux store with auth and profile reducers
+/**
+ * Configure the Redux store with auth, profile, account, and transaction reducers.
+ */
 const store = configureStore({
   reducer: {
     profile: profileReducer,
