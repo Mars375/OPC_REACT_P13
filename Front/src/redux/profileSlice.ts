@@ -92,6 +92,12 @@ const profileSlice = createSlice({
   name: 'profile',
   initialState,
   reducers: {
+    /**
+     * Action to clear the user profile.
+     * Resets the profile, status, error, and isLoggedIn state.
+     *
+     * @param {ProfileState} state - The current state of the profile slice.
+     */
     clearProfile(state) {
       state.profile = null;
       state.status = 'idle';
