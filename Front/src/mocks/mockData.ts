@@ -1,3 +1,7 @@
+/**
+ * Mock data for user accounts.
+ * Each account includes userId, accountId, title, amount, and description.
+ */
 export const mockAccounts = [
   {
     userId: '664cc8c013a05a2888e0d010',
@@ -43,6 +47,10 @@ export const mockAccounts = [
   },
 ];
 
+/**
+ * Mock data for transactions.
+ * Each transaction includes transactionId, accountId, date, description, amount, balance, type, category, notes, merchant, location, status, currency, and paymentMethod.
+ */
 export const mockTransactions = [
   {
     transactionId: '1',
