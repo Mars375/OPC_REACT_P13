@@ -1,6 +1,12 @@
 import { mockAccounts, mockTransactions } from './mockData';
 
-// Simulate fetching accounts from an API
+/**
+ * Simulate fetching accounts from an API.
+ * Filters mock accounts by userId.
+ *
+ * @param {string} userId - The ID of the user whose accounts are to be fetched.
+ * @returns {Promise<{ data: { body: any[] } }>} A promise that resolves to the user's accounts.
+ */
 export const fetchAccounts = async (userId: string) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -13,7 +19,13 @@ export const fetchAccounts = async (userId: string) => {
   });
 };
 
-// Simulate fetching transactions for a specific account from an API
+/**
+ * Simulate fetching transactions for a specific account from an API.
+ * Filters mock transactions by accountId.
+ *
+ * @param {string} accountId - The ID of the account whose transactions are to be fetched.
+ * @returns {Promise<{ data: { body: any[] } }>} A promise that resolves to the account's transactions.
+ */
 export const fetchTransactions = async (accountId: string) => {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -28,7 +40,13 @@ export const fetchTransactions = async (accountId: string) => {
   });
 };
 
-// Simulate fetching a single transaction by ID from an API
+/**
+ * Simulate fetching a single transaction by ID from an API.
+ * Finds a mock transaction by transactionId.
+ *
+ * @param {string} transactionId - The ID of the transaction to be fetched.
+ * @returns {Promise<{ data: { body: any } }>} A promise that resolves to the transaction.
+ */
 export const fetchTransactionById = async (transactionId: string) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -44,7 +62,17 @@ export const fetchTransactionById = async (transactionId: string) => {
   });
 };
 
-// Simulate updating a transaction in an API
+/**
+ * Simulate updating a transaction in an API.
+ * Finds and updates a mock transaction by transactionId and accountId.
+ *
+ * @param {string} accountId - The ID of the account to which the transaction belongs.
+ * @param {string} transactionId - The ID of the transaction to be updated.
+ * @param {Object} updates - The updates to be applied to the transaction.
+ * @param {string} [updates.category] - The new category of the transaction.
+ * @param {string} [updates.notes] - The new notes for the transaction.
+ * @returns {Promise<{ data: { body: any } }>} A promise that resolves to the updated transaction.
+ */
 export const updateTransaction = async (
   accountId: string,
   transactionId: string,
