@@ -10,6 +10,16 @@ import {
 } from '../redux/transactionSlice';
 import { AppDispatch } from '../redux/store';
 
+/**
+ * TransactionsPage component displays the list of transactions for a specific account.
+ * It allows the user to view and edit transaction details and handles various states such as loading and error.
+ *
+ * @component
+ * @example
+ * return (
+ *   <TransactionsPage />
+ * )
+ */
 const TransactionsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -33,18 +43,21 @@ const TransactionsPage: React.FC = () => {
   const [category, setCategory] = useState('');
   const [notes, setNotes] = useState('');
 
+  // Fetch transactions when accountId changes
   useEffect(() => {
     if (accountId) {
       dispatch(fetchTransactionsThunk(accountId));
     }
   }, [dispatch, accountId]);
 
+  // Toggle the expanded state of a transaction
   const toggleExpand = (index: number) => {
     setExpandedIndices((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
 
+  // Handle edit button click
   const handleEdit = (
     transactionId: string,
     currentCategory: string,
@@ -55,6 +68,7 @@ const TransactionsPage: React.FC = () => {
     setNotes(currentNotes);
   };
 
+  // Handle save button click
   const handleSave = (transactionId: string) => {
     if (profile && account) {
       dispatch(
@@ -66,6 +80,11 @@ const TransactionsPage: React.FC = () => {
       );
       setEditTransactionId(null);
     }
+  };
+
+  // Handle cancel button click
+  const handleCancel = () => {
+    setEditTransactionId(null);
   };
 
   return (
@@ -235,14 +254,20 @@ const TransactionsPage: React.FC = () => {
                             </div>
                             {editTransactionId ===
                               transaction.transactionId && (
-                              <footer className="mt-2 flex justify-end">
+                              <footer className="mt-4 flex justify-end">
                                 <button
                                   onClick={() =>
                                     handleSave(transaction.transactionId)
                                   }
-                                  className="rounded bg-secondary px-4 py-2 text-white"
+                                  className="mr-2 rounded bg-secondary px-4 py-2 text-white transition-colors duration-200 hover:bg-[#00A96B]"
                                 >
                                   Save
+                                </button>
+                                <button
+                                  onClick={handleCancel}
+                                  className="rounded bg-gray-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-600"
+                                >
+                                  Cancel
                                 </button>
                               </footer>
                             )}
@@ -256,15 +281,10 @@ const TransactionsPage: React.FC = () => {
             </section>
           </>
         ) : (
-          <div
-            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
-            role="alert"
-          >
-            <FontAwesomeIcon
-              icon="exclamation-circle"
-              className="mr-3 inline h-5 w-5"
-            />
-            <span className="font-medium">Error: Account not found</span>
+          <div className="flex items-center justify-center p-4">
+            <p className="text-lg font-medium text-red-500">
+              Account not found.
+            </p>
           </div>
         )}
       </>
