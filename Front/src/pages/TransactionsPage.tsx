@@ -10,16 +10,6 @@ import {
 } from '../redux/transactionSlice';
 import { AppDispatch } from '../redux/store';
 
-/**
- * TransactionsPage component displays the list of transactions for a specific account.
- * It allows the user to view and edit transaction details and handles various states such as loading and error.
- *
- * @component
- * @example
- * return (
- *   <TransactionsPage />
- * )
- */
 const TransactionsPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -43,21 +33,18 @@ const TransactionsPage: React.FC = () => {
   const [category, setCategory] = useState('');
   const [notes, setNotes] = useState('');
 
-  // Fetch transactions when accountId changes
   useEffect(() => {
     if (accountId) {
       dispatch(fetchTransactionsThunk(accountId));
     }
   }, [dispatch, accountId]);
 
-  // Toggle the expanded state of a transaction
   const toggleExpand = (index: number) => {
     setExpandedIndices((prev) =>
       prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
     );
   };
 
-  // Handle edit button click
   const handleEdit = (
     transactionId: string,
     currentCategory: string,
@@ -68,7 +55,6 @@ const TransactionsPage: React.FC = () => {
     setNotes(currentNotes);
   };
 
-  // Handle save button click
   const handleSave = (transactionId: string) => {
     if (profile && account) {
       dispatch(
@@ -171,81 +157,97 @@ const TransactionsPage: React.FC = () => {
                       <div
                         className={`transition-max-height overflow-hidden duration-300 ease-in-out ${expandedIndices.includes(index) ? 'max-h-screen' : 'max-h-0'}`}
                       >
-                        <div className="p-6">
-                          {editTransactionId === transaction.transactionId ? (
-                            <>
-                              <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700">
-                                  Category
-                                </label>
-                                <select
-                                  value={category}
-                                  onChange={(e) => setCategory(e.target.value)}
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                >
-                                  <option value="Food">Food</option>
-                                  <option value="Groceries">Groceries</option>
-                                  <option value="Transport">Transport</option>
-                                  <option value="Entertainment">
-                                    Entertainment
-                                  </option>
-                                  <option value="Shopping">Shopping</option>
-                                  <option value="Health">Health</option>
-                                  <option value="Other">Other</option>
-                                </select>
+                        {expandedIndices.includes(index) && (
+                          <div className="flex flex-col gap-3 px-24 py-4">
+                            <div className="flex items-center">
+                              <div className="mr-4 font-semibold">
+                                Transaction Type:
                               </div>
-                              <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700">
-                                  Notes
-                                </label>
-                                <textarea
-                                  value={notes}
-                                  onChange={(e) => setNotes(e.target.value)}
-                                  className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                />
+                              <div className="flex items-center">
+                                {transaction.type}
                               </div>
-                              <div className="flex justify-end">
+                            </div>
+                            <div className="flex items-center">
+                              <div className="mr-4 font-semibold">
+                                Category:
+                              </div>
+                              <div className="flex items-center">
+                                {editTransactionId ===
+                                transaction.transactionId ? (
+                                  <select
+                                    value={category}
+                                    onChange={(e) =>
+                                      setCategory(e.target.value)
+                                    }
+                                    className="rounded border p-1"
+                                  >
+                                    <option value="Food">Food</option>
+                                    <option value="Transport">Transport</option>
+                                    <option value="Shopping">Shopping</option>
+                                    <option value="Other">Other</option>
+                                  </select>
+                                ) : (
+                                  <>
+                                    {transaction.category}
+                                    <FontAwesomeIcon
+                                      icon="pencil-alt"
+                                      className="ml-2 cursor-pointer"
+                                      onClick={() =>
+                                        handleEdit(
+                                          transaction.transactionId,
+                                          transaction.category,
+                                          transaction.notes
+                                        )
+                                      }
+                                    />
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            <div className="flex items-center">
+                              <div className="mr-4 font-semibold">Notes:</div>
+                              <div className="flex items-center">
+                                {editTransactionId ===
+                                transaction.transactionId ? (
+                                  <input
+                                    type="text"
+                                    value={notes}
+                                    onChange={(e) => setNotes(e.target.value)}
+                                    className="w-full rounded border p-1"
+                                  />
+                                ) : (
+                                  <>
+                                    {transaction.notes}
+                                    <FontAwesomeIcon
+                                      icon="pencil-alt"
+                                      className="ml-2 cursor-pointer"
+                                      onClick={() =>
+                                        handleEdit(
+                                          transaction.transactionId,
+                                          transaction.category,
+                                          transaction.notes
+                                        )
+                                      }
+                                    />
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                            {editTransactionId ===
+                              transaction.transactionId && (
+                              <footer className="mt-2 flex justify-end">
                                 <button
                                   onClick={() =>
                                     handleSave(transaction.transactionId)
                                   }
-                                  className="mr-2 rounded bg-secondary px-4 py-2 text-white transition-colors duration-200 hover:bg-[#00A96B]"
+                                  className="rounded bg-secondary px-4 py-2 text-white"
                                 >
                                   Save
                                 </button>
-                                <button
-                                  onClick={() => setEditTransactionId(null)}
-                                  className="rounded bg-gray-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-600"
-                                >
-                                  Cancel
-                                </button>
-                              </div>
-                            </>
-                          ) : (
-                            <>
-                              <p className="mb-2">
-                                <span className="font-semibold">Category:</span>{' '}
-                                {transaction.category}
-                              </p>
-                              <p className="mb-2">
-                                <span className="font-semibold">Notes:</span>{' '}
-                                {transaction.notes}
-                              </p>
-                              <button
-                                onClick={() =>
-                                  handleEdit(
-                                    transaction.transactionId,
-                                    transaction.category,
-                                    transaction.notes
-                                  )
-                                }
-                                className="rounded bg-secondary px-4 py-2 text-white transition-colors duration-200 hover:bg-[#00A96B]"
-                              >
-                                Edit
-                              </button>
-                            </>
-                          )}
-                        </div>
+                              </footer>
+                            )}
+                          </div>
+                        )}
                       </div>
                     </article>
                   ))}
@@ -254,10 +256,15 @@ const TransactionsPage: React.FC = () => {
             </section>
           </>
         ) : (
-          <div className="flex items-center justify-center p-4">
-            <p className="text-lg font-medium text-red-500">
-              Account not found.
-            </p>
+          <div
+            className="mb-4 flex items-center justify-center rounded-lg bg-red-100 p-4 text-sm text-red-700"
+            role="alert"
+          >
+            <FontAwesomeIcon
+              icon="exclamation-circle"
+              className="mr-3 inline h-5 w-5"
+            />
+            <span className="font-medium">Error: Account not found</span>
           </div>
         )}
       </>

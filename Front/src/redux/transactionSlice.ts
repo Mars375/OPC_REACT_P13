@@ -38,7 +38,12 @@ const initialState: TransactionState = {
   error: null,
 };
 
-// Async action to fetch transactions for a specific account
+/**
+ * Async action to fetch transactions for a specific account.
+ *
+ * @param {string} accountId - The ID of the account whose transactions are to be fetched.
+ * @returns {Promise<Transaction[]>} A promise that resolves to the list of transactions.
+ */
 export const fetchTransactionsThunk = createAsyncThunk(
   'transaction/fetchTransactions',
   async (accountId: string, { rejectWithValue }) => {
@@ -67,7 +72,12 @@ export const fetchTransactionsThunk = createAsyncThunk(
   }
 );
 
-// Async action to fetch a single transaction by ID
+/**
+ * Async action to fetch a single transaction by ID.
+ *
+ * @param {string} transactionId - The ID of the transaction to be fetched.
+ * @returns {Promise<Transaction>} A promise that resolves to the transaction.
+ */
 export const fetchTransactionByIdThunk = createAsyncThunk(
   'transaction/fetchTransactionById',
   async (transactionId: string, { rejectWithValue }) => {
@@ -96,7 +106,18 @@ export const fetchTransactionByIdThunk = createAsyncThunk(
   }
 );
 
-// Async action to update a transaction
+/**
+ * Async action to update a transaction.
+ *
+ * @param {Object} params - The parameters for updating the transaction.
+ * @param {string} params.accountId - The ID of the account to which the transaction belongs.
+ * @param {string} params.transactionId - The ID of the transaction to be updated.
+ * @param {Object} params.updates - The updates to be applied to the transaction.
+ * @param {string} [params.updates.category] - The new category of the transaction.
+ * @param {string} [params.updates.notes] - The new notes for the transaction.
+ * @param {string} [params.updates.description] - The new description of the transaction.
+ * @returns {Promise<Transaction>} A promise that resolves to the updated transaction.
+ */
 export const updateTransactionThunk = createAsyncThunk(
   'transaction/updateTransaction',
   async (
@@ -140,6 +161,7 @@ export const updateTransactionThunk = createAsyncThunk(
   }
 );
 
+// Slice to manage transaction state
 const transactionSlice = createSlice({
   name: 'transaction',
   initialState,
