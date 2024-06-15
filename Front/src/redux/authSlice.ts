@@ -70,14 +70,24 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    // Action to handle user logout
+    /**
+     * Action to handle user logout.
+     * Clears the token from the state and removes it from cookies and localStorage.
+     *
+     * @param {AuthState} state - The current state of the auth slice.
+     */
     logout(state) {
       state.token = null;
       Cookies.remove('token');
       localStorage.removeItem('accounts');
       localStorage.removeItem('accounts_expiration');
     },
-    // Action to load token from cookies
+    /**
+     * Action to load token from cookies.
+     * Sets the token in the state if it exists in cookies.
+     *
+     * @param {AuthState} state - The current state of the auth slice.
+     */
     loadTokenFromStorage(state) {
       const token = Cookies.get('token');
       if (token) {
