@@ -1,3 +1,7 @@
+/**
+ * Error messages used throughout the application.
+ * These messages are displayed to the user in case of various errors.
+ */
 const errorMessages = {
   SESSION_EXPIRED: 'Session expired. Please log in again.',
   TOKEN_MISSING: 'The token is missing in the header.',
