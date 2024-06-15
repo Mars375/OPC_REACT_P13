@@ -13,6 +13,16 @@ import { AppDispatch } from '../redux/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { logout } from '../redux/authSlice';
 
+/**
+ * ProfilePage component displays the user's profile and associated accounts.
+ * It allows the user to edit their profile information and handles various states such as loading, error, and session expiration.
+ *
+ * @component
+ * @example
+ * return (
+ *   <ProfilePage />
+ * )
+ */
 const ProfilePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -27,33 +37,33 @@ const ProfilePage: React.FC = () => {
     error: accountsError,
   } = useSelector((state: RootState) => state.account);
 
+  // State variables for edit mode and profile fields
   const [editMode, setEditMode] = useState(false);
   const [firstName, setFirstName] = useState(profile?.firstName || '');
   const [lastName, setLastName] = useState(profile?.lastName || '');
 
+  // Fetch user profile if logged in and profile is not loaded
   useEffect(() => {
     if (!profile) {
-      // Fetch user profile if logged in and profile is not loaded
       dispatch(fetchProfile());
     }
   }, [profile, dispatch]);
 
+  // Fetch user accounts if profile is loaded
   useEffect(() => {
     if (profile && profile.id) {
-      // Fetch user accounts if profile is loaded
       dispatch(fetchAccountsThunk(profile.id));
     }
   }, [profile, dispatch]);
 
+  // Handle session expiration and unauthorized access
   useEffect(() => {
     if (profileStatus === 'failed' && profileError === 'Session expired') {
-      // Redirect to login page if session expired
       navigate('/login', {
         state: { error: 'Session expired. Please log in again.' },
       });
     }
     if (profileStatus === 'failed' && profileError === 'Unauthorized') {
-      // Redirect to login page if session expired
       dispatch(logout());
       dispatch(clearProfile());
       navigate('/login', {
@@ -62,13 +72,15 @@ const ProfilePage: React.FC = () => {
         },
       });
     }
-  }, [profileStatus, profileError, navigate]);
+  }, [profileStatus, profileError, navigate, dispatch]);
 
+  // Handle save button click
   const handleSave = () => {
     dispatch(updateProfile({ firstName, lastName }));
     setEditMode(false);
   };
 
+  // Handle cancel button click
   const handleCancel = () => {
     setFirstName(profile?.firstName || '');
     setLastName(profile?.lastName || '');
