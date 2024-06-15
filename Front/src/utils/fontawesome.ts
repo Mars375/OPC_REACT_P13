@@ -19,6 +19,10 @@ import {
   faSearch,
 } from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * Add FontAwesome icons to the library for use throughout the application.
+ * This allows the icons to be referenced by their names in components.
+ */
 library.add(
   faUserCircle,
   faSignOutAlt,
