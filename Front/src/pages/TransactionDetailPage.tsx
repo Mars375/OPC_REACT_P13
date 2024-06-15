@@ -11,6 +11,16 @@ import { AppDispatch } from '../redux/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 
+/**
+ * TransactionDetailPage component displays the details of a specific transaction.
+ * It allows the user to edit the transaction details and handles various states such as loading and error.
+ *
+ * @component
+ * @example
+ * return (
+ *   <TransactionDetailPage />
+ * )
+ */
 const TransactionDetailPage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -19,17 +29,20 @@ const TransactionDetailPage: React.FC = () => {
     (state: RootState) => state.transaction
   );
 
+  // State variables for edit mode and transaction fields
   const [isEditing, setIsEditing] = useState(false);
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [notes, setNotes] = useState('');
 
+  // Fetch transaction details if transactionId is available
   useEffect(() => {
     if (transactionId) {
       dispatch(fetchTransactionByIdThunk(transactionId));
     }
   }, [dispatch, transactionId]);
 
+  // Update state variables when transaction details are loaded
   useEffect(() => {
     if (transaction) {
       setDescription(transaction.description);
@@ -38,6 +51,7 @@ const TransactionDetailPage: React.FC = () => {
     }
   }, [transaction]);
 
+  // Handle save button click
   const handleSave = () => {
     if (transaction) {
       dispatch(
@@ -51,6 +65,7 @@ const TransactionDetailPage: React.FC = () => {
     }
   };
 
+  // Display error message if transaction fetch fails
   if (status === 'failed') {
     return (
       <div
@@ -175,56 +190,36 @@ const TransactionDetailPage: React.FC = () => {
                         icon="info-circle"
                         className="mr-2 text-gray-500"
                       />
-                      <p className="text-lg font-medium">
-                        Status: {transaction.status}
-                      </p>
-                    </div>
-                    <div className="flex items-center">
-                      <FontAwesomeIcon
-                        icon="money-bill-wave"
-                        className="mr-2 text-gray-500"
-                      />
-                      <p className="text-lg font-medium">
-                        Currency: {transaction.currency}
-                      </p>
-                    </div>
-                    <div className="flex items-center">
-                      <FontAwesomeIcon
-                        icon="credit-card"
-                        className="mr-2 text-gray-500"
-                      />
-                      <p className="text-lg font-medium">
-                        Payment Method: {transaction.paymentMethod}
-                      </p>
+                      {isEditing ? (
+                        <textarea
+                          value={notes}
+                          onChange={(e) => setNotes(e.target.value)}
+                          className="w-full rounded border p-2 outline-none"
+                          placeholder="Notes"
+                        />
+                      ) : (
+                        <p className="text-lg font-medium">
+                          Notes: {transaction.notes}
+                        </p>
+                      )}
                     </div>
                   </div>
-                  <div className="mt-4">
-                    <p className="text-lg font-medium">
-                      <FontAwesomeIcon
-                        icon="sticky-note"
-                        className="mr-2 text-gray-500"
-                      />
-                      Notes: {transaction.notes}
-                    </p>
-                    {isEditing && (
-                      <textarea
-                        value={notes}
-                        onChange={(e) => setNotes(e.target.value)}
-                        className="w-full rounded border p-2 outline-none"
-                        placeholder="Notes"
-                      />
-                    )}
-                  </div>
-                  <div className="mt-4 flex justify-end">
-                    {isEditing && (
+                  {isEditing && (
+                    <div className="mt-4 flex justify-end">
                       <button
                         onClick={handleSave}
-                        className="rounded bg-secondary px-4 py-2 text-white transition-colors duration-200 hover:bg-[#00A96B]"
+                        className="mr-2 rounded bg-secondary px-4 py-2 text-white transition-colors duration-200 hover:bg-[#00A96B]"
                       >
                         Save
                       </button>
-                    )}
-                  </div>
+                      <button
+                        onClick={() => setIsEditing(false)}
+                        className="rounded bg-gray-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-600"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
