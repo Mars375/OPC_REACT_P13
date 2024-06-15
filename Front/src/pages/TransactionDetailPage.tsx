@@ -5,11 +5,12 @@ import Layout from '../Layouts/Layout';
 import {
   fetchTransactionByIdThunk,
   updateTransactionThunk,
+  deleteTransactionThunk, // Importer l'action de suppression
 } from '../redux/transactionSlice';
 import { RootState } from '../redux/store';
 import { AppDispatch } from '../redux/store';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEdit } from '@fortawesome/free-solid-svg-icons';
+import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 /**
  * TransactionDetailPage component displays the details of a specific transaction.
@@ -65,6 +66,20 @@ const TransactionDetailPage: React.FC = () => {
     }
   };
 
+  // Handle delete button click
+  const handleDelete = () => {
+    if (transaction) {
+      dispatch(
+        deleteTransactionThunk({
+          accountId: transaction.accountId,
+          transactionId: transaction.transactionId,
+        })
+      ).then(() => {
+        navigate(-1); // Navigate back after deletion
+      });
+    }
+  };
+
   // Display error message if transaction fetch fails
   if (status === 'failed') {
     return (
@@ -114,11 +129,18 @@ const TransactionDetailPage: React.FC = () => {
                     {transaction?.description}
                   </h1>
                 )}
-                <FontAwesomeIcon
-                  icon={faEdit}
-                  className="ml-4 cursor-pointer text-gray-500"
-                  onClick={() => setIsEditing(!isEditing)}
-                />
+                <div>
+                  <FontAwesomeIcon
+                    icon={faEdit}
+                    className="ml-4 cursor-pointer text-gray-500"
+                    onClick={() => setIsEditing(!isEditing)}
+                  />
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className="ml-4 cursor-pointer text-gray-500"
+                    onClick={handleDelete}
+                  />
+                </div>
               </div>
               {transaction && (
                 <div className="rounded-lg bg-white p-6 shadow-md">

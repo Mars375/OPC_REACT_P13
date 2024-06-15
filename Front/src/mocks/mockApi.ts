@@ -98,3 +98,32 @@ export const updateTransaction = async (
     }, 500);
   });
 };
+
+/**
+ * Simulate deleting a transaction.
+ * Removes a mock transaction by accountId and transactionId.
+ *
+ * @param {string} accountId - The ID of the account to which the transaction belongs.
+ * @param {string} transactionId - The ID of the transaction to be deleted.
+ * @returns {Promise<{ data: { message: string } }>} A promise that resolves with a success message.
+ */
+export const deleteTransaction = async (
+  accountId: string,
+  transactionId: string
+) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      const transactionIndex = mockTransactions.findIndex(
+        (transaction) =>
+          transaction.accountId === accountId &&
+          transaction.transactionId === transactionId
+      );
+      if (transactionIndex !== -1) {
+        mockTransactions.splice(transactionIndex, 1);
+        resolve({ data: { message: 'Transaction deleted successfully' } });
+      } else {
+        resolve({ data: { message: 'Transaction not found' } });
+      }
+    }, 500);
+  });
+};
