@@ -5,7 +5,7 @@ import Layout from '../Layouts/Layout';
 import {
   fetchTransactionByIdThunk,
   updateTransactionThunk,
-  deleteTransactionThunk, // Importer l'action de suppression
+  deleteTransactionThunk,
 } from '../redux/transactionSlice';
 import { RootState } from '../redux/store';
 import { AppDispatch } from '../redux/store';
@@ -35,6 +35,7 @@ const TransactionDetailPage: React.FC = () => {
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('');
   const [notes, setNotes] = useState('');
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
   // Fetch transaction details if transactionId is available
   useEffect(() => {
@@ -69,6 +70,13 @@ const TransactionDetailPage: React.FC = () => {
   // Handle delete button click
   const handleDelete = () => {
     if (transaction) {
+      setShowDeleteConfirm(true);
+    }
+  };
+
+  // Handle delete confirmation
+  const handleDeleteConfirm = () => {
+    if (transaction) {
       dispatch(
         deleteTransactionThunk({
           accountId: transaction.accountId,
@@ -77,6 +85,7 @@ const TransactionDetailPage: React.FC = () => {
       ).then(() => {
         navigate(-1); // Navigate back after deletion
       });
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -129,7 +138,7 @@ const TransactionDetailPage: React.FC = () => {
                     {transaction?.description}
                   </h1>
                 )}
-                <div>
+                <div className="flex items-center">
                   <FontAwesomeIcon
                     icon={faEdit}
                     className="ml-4 cursor-pointer text-gray-500"
@@ -137,7 +146,7 @@ const TransactionDetailPage: React.FC = () => {
                   />
                   <FontAwesomeIcon
                     icon={faTrash}
-                    className="ml-4 cursor-pointer text-gray-500"
+                    className="ml-4 cursor-pointer text-red-500"
                     onClick={handleDelete}
                   />
                 </div>
@@ -246,6 +255,30 @@ const TransactionDetailPage: React.FC = () => {
               )}
             </div>
           </>
+        )}
+        {showDeleteConfirm && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+            <div className="rounded bg-white p-6 shadow-lg">
+              <h2 className="mb-4 text-lg font-bold">Confirm Deletion</h2>
+              <p className="mb-4">
+                Are you sure you want to delete this transaction?
+              </p>
+              <div className="flex justify-end">
+                <button
+                  onClick={handleDeleteConfirm}
+                  className="mr-2 rounded bg-red-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-red-600"
+                >
+                  Delete
+                </button>
+                <button
+                  onClick={() => setShowDeleteConfirm(false)}
+                  className="rounded bg-gray-500 px-4 py-2 text-white transition-colors duration-200 hover:bg-gray-600"
+                >
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         )}
       </>
     </Layout>
