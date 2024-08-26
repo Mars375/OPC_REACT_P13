@@ -1,0 +1,6 @@
+{
+	"name": "argent-bank-api",
+	"scripts": {
+		"postdeploy": "cd Back && npm install && npm run populate-db"
+	}
+}

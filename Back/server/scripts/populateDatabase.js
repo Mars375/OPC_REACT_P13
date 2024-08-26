@@ -1,24 +1,30 @@
-const axios = require('axios')
-const signupApi = 'http://localhost:3001/api/v1/user/signup'
+const mongoose = require('mongoose');
+const User = require('../database/models/userModel');
 
-const users = [
-  {
-    firstName: 'Tony',
-    lastName: 'Stark',
-    email: 'tony@stark.com',
-    password: 'password123'
-  },
-  {
-    firstName: 'Steve',
-    lastName: 'Rogers',
-    email: 'steve@rogers.com',
-    password: 'password456'
+mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => {
+    console.log('Connected to MongoDB');
+    return populateDatabase();
+  })
+  .catch(err => console.error('Could not connect to MongoDB', err));
+
+async function populateDatabase() {
+  try {
+    // Supprimez les utilisateurs existants
+    await User.deleteMany({});
+
+    // Ajoutez de nouveaux utilisateurs
+    const users = [
+      { firstName: 'Tony', lastName: 'Stark', email: 'tony@stark.com', password: 'password123' },
+      { firstName: 'Steve', lastName: 'Rogers', email: 'steve@rogers.com', password: 'password456' },
+      // Ajoutez d'autres utilisateurs ici
+    ];
+
+    await User.insertMany(users);
+    console.log('Database populated');
+    process.exit();
+  } catch (err) {
+    console.error('Error populating database', err);
+    process.exit(1);
   }
-]
-
-users.forEach(user => {
-  axios
-    .post(signupApi, user)
-    .then(response => console.log(response))
-    .catch(error => console.log(error))
-})
+}
