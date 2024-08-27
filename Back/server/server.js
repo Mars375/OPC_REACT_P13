@@ -18,7 +18,27 @@ mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTo
   .catch(err => console.error('Could not connect to MongoDB', err));
 
 // Handle CORS issues
-app.use(cors())
+const allowedOrigins = [
+  'https://argent-bank-chi.vercel.app',
+  'https://argent-bank-mars375s-projects.vercel.app',
+  'https://argent-bank-git-main-mars375s-projects.vercel.app'
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  optionsSuccessStatus: 200,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes HTTP autorisées
+  allowedHeaders: ['Content-Type', 'Authorization'], // En-têtes autorisés
+  exposedHeaders: ['Content-Length', 'X-Kuma-Revision'] // En-têtes exposés
+};
+
+app.use(cors(corsOptions));
 
 // Request payload middleware
 app.use(express.json())
