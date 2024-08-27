@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const User = require('../database/models/userModel');
+const bcrypt = require('bcrypt');
+const User = require('../database/models/userModel'); // Assurez-vous que le chemin est correct
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
@@ -13,10 +14,10 @@ async function populateDatabase() {
     // Supprimez les utilisateurs existants
     await User.deleteMany({});
 
-    // Ajoutez de nouveaux utilisateurs
+    // Ajoutez de nouveaux utilisateurs avec des mots de passe hachés
     const users = [
-      { firstName: 'Tony', lastName: 'Stark', email: 'tony@stark.com', password: 'password123' },
-      { firstName: 'Steve', lastName: 'Rogers', email: 'steve@rogers.com', password: 'password456' },
+      { firstName: 'Tony', lastName: 'Stark', email: 'tony@stark.com', password: await bcrypt.hash('password123', 10) },
+      { firstName: 'Steve', lastName: 'Rogers', email: 'steve@rogers.com', password: await bcrypt.hash('password456', 10) },
       // Ajoutez d'autres utilisateurs ici
     ];
 
