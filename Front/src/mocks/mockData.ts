@@ -4,42 +4,42 @@
  */
 export const mockAccounts = [
   {
-    userId: '66cc48683105dc00150d70d5',
+    userId: '66cdef67b19f8a0077659241',
     accountId: '1',
     title: 'Argent Bank Checking (x8349)',
     amount: '$2,082.79',
     description: 'Available Balance',
   },
   {
-    userId: '66cc48683105dc00150d70d5',
+    userId: '66cdef67b19f8a0077659241',
     accountId: '2',
     title: 'Argent Bank Savings (x6712)',
     amount: '$10,928.42',
     description: 'Available Balance',
   },
   {
-    userId: '66cc48683105dc00150d70d5',
+    userId: '66cdef67b19f8a0077659241',
     accountId: '3',
     title: 'Argent Bank Credit Card (x8349)',
     amount: '$184.30',
     description: 'Current Balance',
   },
   {
-    userId: '66cc48683105dc00150d70d6',
+    userId: '66cdef67b19f8a0077659242',
     accountId: '4',
     title: 'Argent Bank Checking (x1234)',
     amount: '$4,567.89',
     description: 'Available Balance',
   },
   {
-    userId: '66cc48683105dc00150d70d6',
+    userId: '66cdef67b19f8a0077659242',
     accountId: '5',
     title: 'Argent Bank Savings (x5678)',
     amount: '$14,321.65',
     description: 'Available Balance',
   },
   {
-    userId: '66cc48683105dc00150d70d6',
+    userId: '66cdef67b19f8a0077659242',
     accountId: '6',
     title: 'Argent Bank Credit Card (x9101)',
     amount: '$512.34',
