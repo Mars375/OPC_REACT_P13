@@ -6,7 +6,7 @@ import Cookies from 'js-cookie';
  * The base URL is set to the API endpoint and the content type is set to JSON.
  */
 const api = axios.create({
-  baseURL: 'https://argent-bank-db-810870e1313f.herokuapp.com/api/v1',
+  baseURL: 'https://opc-react-p13.onrender.com/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
